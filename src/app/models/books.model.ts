@@ -1,5 +1,5 @@
-import { model, Schema } from "mongoose";
-import { IBooks } from "../interfaces/books.interface";
+import { model, Schema, Types } from "mongoose";
+import { BookModelType, IBooks } from "../interfaces/books.interface";
 
 const bookSchema = new Schema<IBooks>(
   {
@@ -45,4 +45,23 @@ const bookSchema = new Schema<IBooks>(
   }
 );
 
-export const Book = model<IBooks>("Book", bookSchema);
+// update book copies use static method
+bookSchema.statics.updateCopiesAfterBorrow = async function (
+  bookId: Types.ObjectId | string,
+  quantity: number
+): Promise<void> {
+  const book = await this.findById(bookId);
+  if (!book) {
+    throw new Error("Book Not Found");
+  }
+  if (book.copies < quantity) {
+    throw new Error("Not enough copies available");
+  }
+  book.copies -= quantity;
+  if (book.copies === 0) {
+    book.available = false;
+  }
+  await book.save();
+};
+
+export const Book = model<IBooks, BookModelType>("Book", bookSchema);
