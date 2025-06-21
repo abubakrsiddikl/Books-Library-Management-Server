@@ -5,7 +5,7 @@ import { Borrow } from "../models/borrows.model";
 export const borrowRouter = express.Router();
 
 // post borrow book
-borrowRouter.post("/create-borrow", async (req: Request, res: Response) => {
+borrowRouter.post("/", async (req: Request, res: Response) => {
   try {
     const { book, quantity, dueDate } = req.body;
     //check book availabilit and quantity
