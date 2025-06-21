@@ -10,8 +10,8 @@ const borrows_controller_1 = require("./app/controllers/borrows.controller");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
-app.use("/books", books_controller_1.booksRouter);
-app.use("/borrow", borrows_controller_1.borrowRouter);
+app.use("/api/books", books_controller_1.booksRouter);
+app.use("/api/borrow", borrows_controller_1.borrowRouter);
 app.get("/", (req, res) => {
     res.send("Welcome to the Library Management Server . ");
 });
